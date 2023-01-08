@@ -1,0 +1,25 @@
+= sBTC: Design of a Trustless Two-way Peg for Bitcoin
+
+Unlocking Bitcoin to be a fully programmable, productive asset would allow
+Bitcoin to be the backbone of DeFi and a more secure web3. The ability to move
+Bitcoin assets in and out of smart contracts freely and for these contracts to
+trustlessly write to the Bitcoin blockchain can unlock hundreds of billions of
+dollars of passive BTC for web3. In this paper, we present a novel
+decentralized Bitcoin peg mechanism. Using this peg, a BTC-pegged asset can be
+issued on Bitcoin layers that is 1:1 pegged to BTC and does not rely on
+centralized or pre-determined actors for its functionality. Instead, the peg
+mechanism operates in a decentralized manner using an open-membership group of
+dynamic actors that are economically incentivized and can start or stop
+contributing to the peg functionality.
+
+A decentralized two-way Bitcoin peg has been an unsolved, ‘holy grail’ problem
+in the Bitcoin ecosystem, especially as it can enable trustless writes to
+Bitcoin. A decentralized peg allows BTC to become a productive asset without
+entrusting it to centralized entities and to be deployed in applications like
+decentralized BTC-based lending, BTC-backed stablecoins, etc. A wrapped Bitcoin
+asset (wBTC) on Ethereum has ranged from \$5-\$15 billion in usage, even though
+it is entrusted to a single custodian and hence antithetical to Bitcoin ethos.
+We describe the design of a Bitcoin-pegged asset, called sBTC, that implements
+the decentralized peg mechanism using the unique interactions of the Stacks
+Bitcoin layer and Bitcoin main chain (L1) to provide high performance and
+decentralized security.
