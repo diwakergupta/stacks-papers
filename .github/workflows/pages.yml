@@ -27,12 +27,17 @@ jobs:
         uses: actions/checkout@v3
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
+          with:
+            ruby-version: '3.2'
       - name: Install asciidoctor
         run: gem install asciidoctor asciidoctor-pdf
       - name: Build html and pdf
-        run: asciidoctor sbtc.adoc && asciidoctor-pdf sbtc.adoc
+        run: |
+          asciidoctor sbtc.adoc
+          asciidoctor-pdf sbtc.adoc
   # Single deploy job since we're just deploying
   deploy:
+    needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
