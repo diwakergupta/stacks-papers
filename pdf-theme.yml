@@ -1,7 +1,7 @@
 extends: default
 
 base:
-  font-size: 10
+  font-size: 11
   font-family: Times-Roman
 
 page:
@@ -10,4 +10,5 @@ page:
 heading:
   font_style: normal
   h1_font_size: floor($base_font_size * 2)
-  h2_font_size: floor($base_font_size * 1.6)
+  h2_font_size: floor($base_font_size * 1.7)
+  h3_font_size: floor($base_font_size * 1.4)

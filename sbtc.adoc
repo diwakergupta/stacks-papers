@@ -1,5 +1,6 @@
 = sBTC: Design of a Trustless Two-way Peg for Bitcoin
 :toc:
+:sectnums:
 
 [.normal]
 Unlocking Bitcoin to be a fully programmable, productive asset would allow
