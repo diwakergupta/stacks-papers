@@ -1,6 +1,7 @@
 = sBTC: Design of a Trustless Two-way Peg for Bitcoin
 :toc:
 
+[.normal]
 Unlocking Bitcoin to be a fully programmable, productive asset would allow
 Bitcoin to be the backbone of DeFi and a more secure web3. The ability to move
 Bitcoin assets in and out of smart contracts freely and for these contracts to

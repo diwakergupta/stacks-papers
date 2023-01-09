@@ -37,7 +37,7 @@ jobs:
       - name: Build html and pdf
         run: |
           asciidoctor -D dist *.adoc
-          asciidoctor-pdf -D dist *.adoc
+          asciidoctor-pdf -D dist --theme pdf-theme.yml -a "!toc" *.adoc
           mv dist/README.html dist/index.html
       - name: Setup Pages
         uses: actions/configure-pages@v2
