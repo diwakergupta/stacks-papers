@@ -1,4 +1,4 @@
-name: Build and deploy to pages
+name: Build and deploy to Github pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -36,8 +36,9 @@ jobs:
         run: gem install asciidoctor asciidoctor-pdf
       - name: Build html and pdf
         run: |
-          asciidoctor -D dist sbtc.adoc
-          asciidoctor-pdf -D dist sbtc.adoc
+          asciidoctor -D dist *.adoc
+          asciidoctor-pdf -D dist *.adoc
+          mv dist/README.html dist/index.html
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Upload artifact

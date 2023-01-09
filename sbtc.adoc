@@ -1,4 +1,5 @@
 = sBTC: Design of a Trustless Two-way Peg for Bitcoin
+:toc:
 
 Unlocking Bitcoin to be a fully programmable, productive asset would allow
 Bitcoin to be the backbone of DeFi and a more secure web3. The ability to move
@@ -12,14 +13,66 @@ mechanism operates in a decentralized manner using an open-membership group of
 dynamic actors that are economically incentivized and can start or stop
 contributing to the peg functionality.
 
-A decentralized two-way Bitcoin peg has been an unsolved, ‘holy grail’ problem
+A decentralized two-way Bitcoin peg has been an unsolved, "holy grail" problem
 in the Bitcoin ecosystem, especially as it can enable trustless writes to
 Bitcoin. A decentralized peg allows BTC to become a productive asset without
 entrusting it to centralized entities and to be deployed in applications like
 decentralized BTC-based lending, BTC-backed stablecoins, etc. A wrapped Bitcoin
-asset (wBTC) on Ethereum has ranged from \$5-\$15 billion in usage, even though
+asset (wBTC) on Ethereum has ranged from $5-$15 billion in usage, even though
 it is entrusted to a single custodian and hence antithetical to Bitcoin ethos.
 We describe the design of a Bitcoin-pegged asset, called sBTC, that implements
 the decentralized peg mechanism using the unique interactions of the Stacks
 Bitcoin layer and Bitcoin main chain (L1) to provide high performance and
 decentralized security.
+
+Bitcoin is the most decentralized, secure, and durable blockchain. BTC is a unique and valuable asset in the industry, and the Bitcoin blockchain is the best final settlement layer for transactions. Bitcoin optimizes for simplicity and decentralization at the base layer <<bitcoin>>; Bitcoin is, by design, relatively slow and does not natively provide the fully-expressive smart contracts needed to build sophisticated applications. This is unlikely to, and should not, change. Faster and more sophisticated applications must therefore be built outside of the base layer. Bitcoin layers enable this, interacting with the Bitcoin L1 as necessary but providing high performance and advanced functionality outside the base layer. (We use "`Bitcoin layer`" as a broad term meaning a functionality layer outside of L1, our definition of Bitcoin layer includes concepts like L2s, sidechains <<sidechains>>, etc.) Fast payments (Lightning), asset issuance (Liquid), and general smart contracts (Stacks and RSK) are examples of functionality provided by Bitcoin layers.
+
+An ideal Bitcoin layer needs to have three properties:
+
+. Fully-expressive smart contracts with a global ledger so developers can build sophisticated applications in a decentralized way.
+. Ability to easily move BTC in and out of the layer in a secure, decentralized manner and programmatically write to Bitcoin.
+. High security of transactions backed by 100% of the base layer (Bitcoin) security.
+
+While there has been noticeable progress on Bitcoin layers, the various Bitcoin layers as of 2022 have some limitations: Lightning does not have fully-expressive smart contracts or a global ledger (for immutable records), Liquid and RSK have federated pegs and no Bitcoin settlement, and the initial version of Stacks did not have a decentralized Bitcoin peg. In contrast, recent Ethereum layers have all three properties for ETH and have recently experienced significant growth in users and capital deployed. For Ethereum, the various layers are used primarily for scalability, but for Bitcoin the layers are more important given the limited L1 functionality; Bitcoin layers are required for both scalability and new functionality.
+
+This work on sBTC brings us closer to building ideal Bitcoin layers. Not only can users have access to fully-expressive smart contracts at the Bitcoin layer, but they can easily move BTC in and out of the layer in a decentralized manner. Meanwhile, the layer transactions can be secured by 100% of the Bitcoin L1 security. The decentralized peg mechanism unlocks a new era of Bitcoin applications that can accelerate the growth of the Bitcoin economy.
+
+Our sBTC peg design has the following properties that make it unique:
+
+* *Open and decentralized:* The peg is operated by an open-membership set of dynamically changing signers instead of a predetermined set of federated or centralized parties; the decentralized signers are economically incentivized.
+* *Censorship resistant:* The peg operations like signer selection, peg-out requests, etc., happen on the Bitcoin L1 and follow Bitcoin's censorship-resistance, meaning that external actors in the Stacks layer cannot censor these operations.
+* *Cheap peg in/out:* The threshold signers are incentivized through BTC rewards from the Stacks layer consensus, giving them strong economic incentives to participate without introducing any additional peg fees.
+* *On-chain Bitcoin oracle:* There is no dependency on an external Oracle for peg operations as it uses a unique price oracle implemented on-chain on the Bitcoin L1.
+* *Bitcoin security:* The Stacks layer and the peg state automatically forks with Bitcoin L1, automatically settles all transactions on Bitcoin L1 with 100% Bitcoin finality, giving strong security guarantees.
+* *Commercially viable:* Real-world participation data suggests that sBTC can reach a circulating supply of hundreds of millions to billions of dollars given recent capital locked in Stacks consensus, making sBTC commercially viable and scalable.
+
+Other than allowing easy movement of BTC in and out of layers, the peg mechanism also allows smart contracts on the layers to write to Bitcoin in a trustless way. This *Bitcoin write functionality* is a major unlock for developers enabling them to build smart contracts that can programmatically send BTC to Bitcoin addresses through the decentralized peg.
+
+== Decentralized Two-way Bitcoin Peg
+
+Smart contracts should not operate at the Bitcoin base layer for security and performance reasons; the base layer should remain simple. We present a decentralized, open-membership Bitcoin peg mechanism using the Stacks Bitcoin layer: BTC can be locked on the Bitcoin L1, and an equal amount of a derived asset, called sBTC, whose value is pegged 1:1 to BTC, is issued on the Stacks layer. Smart contracts can execute using sBTC and, when desired, sBTC can be pegged back out to BTC (i.e., sBTC is destroyed, and an equal amount of BTC is released on the Bitcoin chain automatically). Smart contracts can programmatically send sBTC (peg it out as BTC) to a BTC address, solving the Bitcoin write problem where contracts outside the Bitcoin L1 can trustlessly write to the Bitcoin blockchain.
+
+Readers should see the latest version of https://stx.is/nakamoto[the Stacks paper] <<stacks-nakamoto>> for details on the proposed Nakamoto release and the latest security model of using Bitcoin finality.
+
+The sBTC approach allows smart contracts to use Bitcoin as the monetary asset but with faster and cheaper transactions at the Stacks layer. BTC-derived pegged assets have been implemented earlier, including wBTC on Ethereum, R-BTC on RSK, and L-BTC on Liquid. However, in all those cases, the pegs are managed by and entrusted to either a centralized custodian or a federation of trusted entities. sBTC is a decentralized pegged BTC asset operated by a fully permissionless, decentralized, dynamic set of participants with a clear economic incentive to operate the peg properly.
+
+Such a decentralized Bitcoin peg has been the main roadblock in making BTC a productive asset (to generate profits) by deploying BTC in contracts without entrusting it to centralized entities. This can unlock hundreds of billions of dollars of BTC to be trustlessly deployed in contracts, enabling applications like decentralized BTC lending, BTC-backed stablecoins, etc., with the decentralized security that Bitcoin holders critically desire.
+
+The sBTC peg is enabled by unique characteristics of the Stacks layer and its connection to Bitcoin. In particular:
+
+
+* The Stacks layer has a unique consensus protocol, Proof of Transfer (PoX), that leverages Bitcoin's Proof of Work (PoW) protocol and naturally supports sBTC. In PoX, Stackers lock up their capital and perform the task of threshold signing for peg-out transactions, and in return, are rewarded in BTC. Stacks miners spend BTC to mine Stacks blocks. It is this BTC that is distributed to Stackers as rewards. This allows {\bf an incentive-compatible economic guarantee for a successful peg}: for Stacks miners, it is always incentive-compatible to mine on the canonical fork, and for Stackers, faithfully maintaining the peg is always their most profitable course of action.
+* Stackers are already rewarded by the core consensus protocol. Therefore, *there is no need for users to pay “wrapping fees” when pegging their BTC* in and out during normal operation; the protocol rewards provide the economic incentives. This is a significant advantage, as the wrapping fees in custodial systems become high (as in the case of wBTC).
+* There is no fork risk with Stacks. *The Stacks layer automatically “forks with” the Bitcoin L1*, i.e., when Bitcoin L1 forks, the Stacks layer forks accordingly as well. This means that even if Bitcoin forks or reorganizes, the effect on peg operations, peg wallets, and changes to Stacker sets is reflected on the Stacks chain (on the corresponding Stacks forks). These operations materialize on a particular Stacks fork if and only if they are consistent with the sBTC state on that fork. The result is that even though mining and Stacking are both open-membership, a peg is never corrupted due to forks. Stackers, therefore, do not lose money due to forks, and forks do not pose a risk to the safety of users' BTC. This is not the case for pegged BTC assets on chains like Ethereum~\cite{ethereum} that do not fork with Bitcoin: there, a Bitcoin reorg could make the state of the wrapped BTC inconsistent with the canonical Bitcoin fork, requiring intervention. 
+* The set of threshold signers, called *Stackers, are incentivized by BTC rewards from consensus to maintain the liveness of the system* and sign peg-out requests; the BTC rewards are compensation for their work. This compensation in BTC through participation in Stacks consensus is a unique property of the Stacks layer.
+* The set of threshold signers is elected through Bitcoin transactions, as contracts on Stacks can read and process Bitcoin transactions. This means that Stacks miners cannot censor the election of Stackers. Similarly, BTC peg-out requests are also broadcasted as Bitcoin transactions, and Stacks miners cannot ignore these requests.
+* The system uses the BTC payouts to stackers as a liveness recovery mechanism as well, whereby some BTC payouts are repurposed to fulfill peg-out requests should the Stackers fail to sign peg-out requests in a timely manner.
+
+[bibliography]
+== References
+
+* [[[bitcoin,1]]] Satoshi Nakamoto. Bitcoin: A peer-to-peer electronic cash system. Tech report, 2009.
+https://bitcoin.org/bitcoin.pdf
+* [[[sidechains,2]]] Adam Back, Matt Corallo, Luke Dashjr, Mark Friedenbach, Gregory Maxwell, Andrew
+Miller, Andrew Poelstra, Jorge Timon, and Pieter Wuille. Enabling Blockchain Innovations with Pegged Sidechains. White paper, Blockstream, 2014. https://blockstream.com/sidechains.pdf
+* [[[stacks-nakamoto,3]]] Stacks: A bitcoin layer for smart contracts, Dec 2022. https://stx.is/nakamoto
